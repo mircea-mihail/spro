@@ -22,7 +22,7 @@ void usage(){
     std::cout << "Bash tool to track your progress while studying\n\n";
 
     std::cout << "Options:\n";
-    std::cout << "    -s, --start <TITLE>    starts the timer setting the table title as\n";
+    std::cout << "    -s, --start <TITLE>    starts the timer and sets the session title as TITLE\n";
     std::cout << "    -e, --end              stops the timer\n";
 }
 
