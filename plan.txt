@@ -1,0 +1,2 @@
+separate files with the current date to display progress
+aux file with date and time of -s or -f
