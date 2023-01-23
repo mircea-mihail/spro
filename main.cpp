@@ -38,7 +38,17 @@ void startTimer(std::string title){
     f.close();
 }
 
-//for every entry added, the aux file needs to be updated with a 0, to avoid consecutive -e timing errors
+bool existsFile(std::string fileName){
+    std::ifstream f(fileName);
+    if(f.good()){
+        f.close();
+        return true;
+    }
+    f.close();
+    return false;
+    
+}
+
 void addEntry(time_t start, time_t stop){
     std::time_t seconds = 0, minutes = 0, hours = 0;
     seconds = difftime(stop, start);
@@ -51,7 +61,9 @@ void addEntry(time_t start, time_t stop){
         hours = minutes / 60;
         minutes -= hours * 60;
     }
+    //what if start is before 00:00 and stop after 00:00 (maybe ok?)
     
+    //if(existsFile())    
     //std::cout << hours << " h " << minutes << " min " << seconds << " sec \n";  
 
 }
@@ -73,6 +85,7 @@ void stopTimer(){
     f.close();
 
     std::ofstream g("timeData.txt");
+    //for every entry added, the aux file needs to be updated with a 0, to avoid consecutive -e timing errors
     g << 0;
     g.close();
 }
