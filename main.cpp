@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include <unistd.h>
+
 #include <cstring>
 #include <string>
 
@@ -18,7 +20,7 @@ void printArgs(int argc, char* argv[]){
 }
 
 void usage(){
-    std::cout << "Usage: sprod [OPTION]...\n";
+    std::cout << "Usage: spro [OPTION]...\n";
     std::cout << "Bash tool to track your progress while studying\n\n";
 
     std::cout << "Options:\n";
@@ -52,32 +54,68 @@ void stopTimer(){
         minutes -= hours * 60;
     }
     
+    std::cout << hours << " h " << minutes << " min " << seconds << " sec \n";  
+
     f.close();
 }
 
 void options(int argc, char* argv[]){
-//start the timer
-    if(strcmp(argv[1], "-s") == 0){
-        std::cout << "-s\ntitle: ";
-        std::string title;
-        for(int j = 2; j < argc; j++){
-            title += argv[j];
+    int i;
+    int sflag = 0, eflag = 0, errflag = 0;
+    //s expects an argument, e does not
+    while((i = getopt(argc, argv, "es:")) != -1){
+        switch(i){
+            case 's':
+                sflag++;
+                break;
+            case 'e':
+                eflag++;
+                break;
+            default:
+                errflag ++; 
         }
-        std::cout << title << std::endl; 
+    }
 
+    if(errflag != 0 || (eflag != 0 && sflag != 0) || (eflag == 0 && sflag == 0) || sflag > 1 || eflag > 1){
+        usage();
+        exit(EXIT_FAILURE);
+    }
+
+    if(sflag == 1){
+        std::string title;
+        for(int i = optind-1; i < argc; i++)
+            title = title + argv[i] + ' ';
         startTimer(title);
     }
-//stop the timer
-    else if(strcmp(argv[1], "-e") == 0){
-        std::cout << "-e\nthe timer stopped\n";
 
+    if(eflag == 1){
         stopTimer();
     }
-//bad input
-    else
-        usage();
-
 }
+
+// void options(int argc, char* argv[]){
+// //start the timer
+//     if(strcmp(argv[1], "-s") == 0){
+//         std::cout << "-s\ntitle: ";
+//         std::string title;
+//         for(int j = 2; j < argc; j++){
+//             title += argv[j];
+//         }
+//         std::cout << title << std::endl; 
+
+//         startTimer(title);
+//     }
+// //stop the timer
+//     else if(strcmp(argv[1], "-e") == 0){
+//         std::cout << "-e\nthe timer stopped\n";
+
+//         stopTimer();
+//     }
+// //bad input
+//     else
+//         usage();
+
+// }
 
 int main(int argc, char* argv[]){
     if(argc <= 1){
