@@ -26,6 +26,7 @@ void usage(){
     std::cout << "Options:\n";
     std::cout << "    -s, --start <TITLE>    starts the timer and sets the session title as TITLE\n";
     std::cout << "    -e, --end              stops the timer\n";
+    std::cout << "    -t, --table            prints the progress table for the day\n";
 }
 
 
@@ -33,17 +34,14 @@ void startTimer(std::string title){
     std::ofstream f ("timeData.txt");
     std::time_t now =  (std::chrono::system_clock::to_time_t( std::chrono::system_clock::now()));
     f << now;
+    f << '\n' << title;
     f.close();
 }
 
-void stopTimer(){
-    std::ifstream f("timeData.txt");
-    std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    std::time_t before, seconds = 0, minutes = 0, hours = 0;
-
-    f >> before;
-    
-    seconds = difftime(now, before);
+//for every entry added, the aux file needs to be updated with a 0, to avoid consecutive -e timing errors
+void addEntry(time_t start, time_t stop){
+    std::time_t seconds = 0, minutes = 0, hours = 0;
+    seconds = difftime(stop, start);
 
     if(seconds > 60){
         minutes = seconds / 60;
@@ -54,29 +52,59 @@ void stopTimer(){
         minutes -= hours * 60;
     }
     
-    std::cout << hours << " h " << minutes << " min " << seconds << " sec \n";  
+    //std::cout << hours << " h " << minutes << " min " << seconds << " sec \n";  
+
+}
+
+void stopTimer(){
+    std::ifstream f("timeData.txt");
+    std::time_t stop = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    std::time_t start;
+
+    f >> start;
+    if(start == 0){
+        std::cout << "the timer needs to start before it can stop.\n";
+        usage();
+        f.close();
+        exit(EXIT_FAILURE);
+    }
+    addEntry(start, stop);
 
     f.close();
+
+    std::ofstream g("timeData.txt");
+    g << 0;
+    g.close();
+}
+
+void printTable(){
+    
 }
 
 void options(int argc, char* argv[]){
     int i;
-    int sflag = 0, eflag = 0, errflag = 0;
+    int sflag = 0, eflag = 0, tflag = 0, errflag = 0;
     //s expects an argument, e does not
-    while((i = getopt(argc, argv, "es:")) != -1){
+    while((i = getopt(argc, argv, "tes:")) != -1){
         switch(i){
             case 's':
                 sflag++;
                 break;
+
             case 'e':
                 eflag++;
                 break;
+
+            case 't':
+                tflag++;
+                break;
+
             default:
                 errflag ++; 
         }
     }
 
-    if(errflag != 0 || (eflag != 0 && sflag != 0) || (eflag == 0 && sflag == 0) || sflag > 1 || eflag > 1){
+    if(errflag != 0){
         usage();
         exit(EXIT_FAILURE);
     }
@@ -91,31 +119,11 @@ void options(int argc, char* argv[]){
     if(eflag == 1){
         stopTimer();
     }
+
+    if(tflag == 1){
+        printTable();
+    }
 }
-
-// void options(int argc, char* argv[]){
-// //start the timer
-//     if(strcmp(argv[1], "-s") == 0){
-//         std::cout << "-s\ntitle: ";
-//         std::string title;
-//         for(int j = 2; j < argc; j++){
-//             title += argv[j];
-//         }
-//         std::cout << title << std::endl; 
-
-//         startTimer(title);
-//     }
-// //stop the timer
-//     else if(strcmp(argv[1], "-e") == 0){
-//         std::cout << "-e\nthe timer stopped\n";
-
-//         stopTimer();
-//     }
-// //bad input
-//     else
-//         usage();
-
-// }
 
 int main(int argc, char* argv[]){
     if(argc <= 1){
