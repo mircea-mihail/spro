@@ -1,23 +1,10 @@
 #include <iostream>
-
 #include <unistd.h>
-
 #include <cstring>
 #include <string>
-
 #include <fstream>
-
 #include <chrono>
 #include <ratio>
-
-
-void printArgs(int argc, char* argv[]){
-    std::cout << "input args \n";
-    for(int i = 1; i < argc; i++){
-        std::cout << argv[i] << ' ';   
-    }
-    std::cout << std::endl;
-}
 
 void usage(){
     std::cout << "Usage: spro [OPTION]...\n";
@@ -75,12 +62,13 @@ std::string getDate(time_t start){
     do{
         filename += aux[pos];
         pos ++;
-    }while(pos < aux.size());
+    }while(pos < aux.size() - 1);
     
     return filename;
 }
 
 std::string getHourAndMinute(time_t time){
+    //format: Mon Oct 11 17:10:55 2021
     std::string hourAndMinute, aux = ctime(&time);
     std::size_t pos;
     int colonflag = 0;
@@ -110,6 +98,7 @@ void addEntry(time_t start, time_t stop, std::string title){
         minutes -= hours * 60;
     }
     std::string filename = getDate(start);
+    std::cout << filename << std::endl << filename.size()<< std::endl << filename[filename.size()] << std::endl;
 
     if(!existsFile(filename)){
         std::ofstream f(filename);
@@ -117,11 +106,10 @@ void addEntry(time_t start, time_t stop, std::string title){
     }    
         
     std::ofstream g(filename, std::ofstream::out | std::ofstream::app);
-    std::cout << getHourAndMinute(start) << " - " << getHourAndMinute(stop);
-    std::cout << "\t" << hours << "h "<< minutes << "m " << seconds << "s";
-    std::cout << '\t' << title << std::endl;
+    g << getHourAndMinute(start) << " - " << getHourAndMinute(stop);
+    g << "\t" << hours << "h "<< minutes << "m " << seconds << "s";
+    g << '\t' << title << std::endl;
     g.close();
-
 }
 
 void stopTimer(){
