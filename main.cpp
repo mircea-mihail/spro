@@ -50,18 +50,28 @@ bool existsFile(std::string fileName){
 }
 
 std::string getDate(time_t start){
-    std::string filename;
+    std::string filename, month;
     std::size_t found;
     std::string aux1 = ctime(&start);
     std::cout << aux1 << std::endl;
+    
+    //month
+    found = aux1.find_first_of(" ") + 1;
+    do{
+        month += aux1[found];
+        found ++;
+    }while(aux1[found] != ' ');
 
-    found = aux1.find_first_of(" ");
-    found = aux1.find_first_of(" ", found + 1) + 1;
+    found ++;
+    //day
     do{
         filename += aux1[found];
         found ++;
     }while(aux1[found] != ' ');
-   
+
+    filename += month;
+
+    //year
     found = aux1.find_first_of(" ", found + 1) + 1;
     do{
         filename += aux1[found];
