@@ -18,6 +18,15 @@ void usage(){
 
 
 void startTimer(std::string title){
+    std::ifstream checkFile("timeData.txt");
+    time_t check = 0;
+    checkFile >> check;
+    if(check != 0){
+        std::cout << "the timer needs to stop before it can start again\n";
+        usage();
+        exit(EXIT_FAILURE);
+    }    
+    
     std::ofstream f ("timeData.txt");
     std::time_t now =  (std::chrono::system_clock::to_time_t( std::chrono::system_clock::now()));
     f << now;
@@ -98,7 +107,6 @@ void addEntry(time_t start, time_t stop, std::string title){
         minutes -= hours * 60;
     }
     std::string filename = getDate(start);
-    std::cout << filename << std::endl << filename.size()<< std::endl << filename[filename.size()] << std::endl;
 
     if(!existsFile(filename)){
         std::ofstream f(filename);
@@ -144,7 +152,19 @@ void stopTimer(){
 }
 
 void printTable(){
-    
+    time_t now = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
+    if(!existsFile(getDate(now))){
+        std::cout << "no data recorded for today\n";
+    }
+    else{
+        char c;
+        std::ifstream f(getDate(now));
+        while(f>>std::noskipws>>c){
+            std::cout << c;
+        }
+        f.close();
+    }
+
 }
 
 void options(int argc, char* argv[]){
@@ -175,8 +195,16 @@ void options(int argc, char* argv[]){
         exit(EXIT_FAILURE);
     }
 
+    if(tflag == 1){
+        printTable();
+    }
+
     if(sflag == 1){
         std::string title;
+        if(argc == 2){
+            usage();
+            exit(EXIT_FAILURE);
+        }
         for(int i = optind-1; i < argc; i++)
             title = title + argv[i] + ' ';
         startTimer(title);
@@ -184,10 +212,6 @@ void options(int argc, char* argv[]){
 
     if(eflag == 1){
         stopTimer();
-    }
-
-    if(tflag == 1){
-        printTable();
     }
 }
 
