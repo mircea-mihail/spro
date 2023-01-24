@@ -51,38 +51,53 @@ bool existsFile(std::string fileName){
 
 std::string getDate(time_t start){
     std::string filename, month;
-    std::size_t found;
-    std::string aux1 = ctime(&start);
-    std::cout << aux1 << std::endl;
-    
+    std::size_t pos;
+    std::string aux = ctime(&start);
+        
     //month
-    found = aux1.find_first_of(" ") + 1;
+    pos = aux.find_first_of(" ") + 1;
     do{
-        month += aux1[found];
-        found ++;
-    }while(aux1[found] != ' ');
+        month += aux[pos];
+        pos ++;
+    }while(aux[pos] != ' ');
+    pos ++;
 
-    found ++;
     //day
     do{
-        filename += aux1[found];
-        found ++;
-    }while(aux1[found] != ' ');
+        filename += aux[pos];
+        pos ++;
+    }while(aux[pos] != ' ');
 
     filename += month;
 
     //year
-    found = aux1.find_first_of(" ", found + 1) + 1;
+    pos = aux.find_first_of(" ", pos + 1) + 1;
     do{
-        filename += aux1[found];
-        found ++;
-    }while(found < aux1.size());
+        filename += aux[pos];
+        pos ++;
+    }while(pos < aux.size());
     
-    std::cout << "new string is " << filename;
     return filename;
 }
 
-void addEntry(time_t start, time_t stop){
+std::string getHourAndMinute(time_t time){
+    std::string hourAndMinute, aux = ctime(&time);
+    std::size_t pos;
+    int colonflag = 0;
+    pos = aux.find_first_of(" ");
+    pos = aux.find_first_of(" ", pos + 1);
+    pos = aux.find_first_of(" ", pos + 1) + 1;
+    //hours
+    while(colonflag < 2){
+        hourAndMinute += aux[pos];
+        pos ++;
+        if(aux[pos] == ':')
+            colonflag ++;    
+    }
+    return hourAndMinute;
+}
+
+void addEntry(time_t start, time_t stop, std::string title){
     std::time_t seconds = 0, minutes = 0, hours = 0;
     seconds = difftime(stop, start);
 
@@ -94,11 +109,18 @@ void addEntry(time_t start, time_t stop){
         hours = minutes / 60;
         minutes -= hours * 60;
     }
-    //what if start is before 00:00 and stop after 00:00 (maybe ok?)
     std::string filename = getDate(start);
 
-    //if(existsFile())    
-    //std::cout << hours << " h " << minutes << " min " << seconds << " sec \n";  
+    if(!existsFile(filename)){
+        std::ofstream f(filename);
+        f.close();
+    }    
+        
+    std::ofstream g(filename, std::ofstream::out | std::ofstream::app);
+    std::cout << getHourAndMinute(start) << " - " << getHourAndMinute(stop);
+    std::cout << "\t" << hours << "h "<< minutes << "m " << seconds << "s";
+    std::cout << '\t' << title << std::endl;
+    g.close();
 
 }
 
@@ -106,6 +128,8 @@ void stopTimer(){
     std::ifstream f("timeData.txt");
     std::time_t stop = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     std::time_t start;
+    std::string title;
+    std::string auxs;
 
     f >> start;
     if(start == 0){
@@ -114,7 +138,14 @@ void stopTimer(){
         f.close();
         exit(EXIT_FAILURE);
     }
-    addEntry(start, stop);
+    
+    while (true){
+        if(!(f >> auxs)) break;
+        title += auxs;
+        title += " ";
+    }
+
+    addEntry(start, stop, title);
 
     f.close();
 
