@@ -49,6 +49,29 @@ bool existsFile(std::string fileName){
     
 }
 
+std::string getDate(time_t start){
+    std::string filename;
+    std::size_t found;
+    std::string aux1 = ctime(&start);
+    std::cout << aux1 << std::endl;
+
+    found = aux1.find_first_of(" ");
+    found = aux1.find_first_of(" ", found + 1) + 1;
+    do{
+        filename += aux1[found];
+        found ++;
+    }while(aux1[found] != ' ');
+   
+    found = aux1.find_first_of(" ", found + 1) + 1;
+    do{
+        filename += aux1[found];
+        found ++;
+    }while(found < aux1.size());
+    
+    std::cout << "new string is " << filename;
+    return filename;
+}
+
 void addEntry(time_t start, time_t stop){
     std::time_t seconds = 0, minutes = 0, hours = 0;
     seconds = difftime(stop, start);
@@ -62,7 +85,8 @@ void addEntry(time_t start, time_t stop){
         minutes -= hours * 60;
     }
     //what if start is before 00:00 and stop after 00:00 (maybe ok?)
-    
+    std::string filename = getDate(start);
+
     //if(existsFile())    
     //std::cout << hours << " h " << minutes << " min " << seconds << " sec \n";  
 
