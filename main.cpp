@@ -16,6 +16,9 @@ void usage(){
     std::cout << "    -t, --table            prints the progress table for the day\n";
 }
 
+void printWarning(){
+    std::cout << "\nDON'T FORGET TO STOP THE TIMER!\n\n";
+}
 
 void startTimer(std::string title){
     std::ifstream checkFile("timeData.txt");
@@ -31,6 +34,7 @@ void startTimer(std::string title){
     std::time_t now =  (std::chrono::system_clock::to_time_t( std::chrono::system_clock::now()));
     f << now;
     f << '\n' << title;
+    printWarning();
     f.close();
 }
 
@@ -195,10 +199,6 @@ void options(int argc, char* argv[]){
         exit(EXIT_FAILURE);
     }
 
-    if(tflag == 1){
-        printTable();
-    }
-
     if(sflag == 1){
         std::string title;
         if(argc == 2){
@@ -213,6 +213,10 @@ void options(int argc, char* argv[]){
     if(eflag == 1){
         stopTimer();
     }
+
+    if(tflag == 1){
+        printTable();
+    }
 }
 
 int main(int argc, char* argv[]){
@@ -225,3 +229,5 @@ int main(int argc, char* argv[]){
 
     return 0;
 }
+//add a progress option (how long has it been since you started)
+//but without losing the current progressm
