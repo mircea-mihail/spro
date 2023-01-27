@@ -318,5 +318,18 @@ int main(int argc, char* argv[]){
     }
     return 0;
 }
-//add a progress option (how long has it been since you started)
+
+//-c --current progress
+//add a current progress option (how long has it been since you started)
 //but without losing the current progressm
+
+//-d --delete
+//delete a line 
+
+//-m --manual
+//manual input
+
+//-w --week
+//total progress during last week
+
+//install and uninstall script
