@@ -298,7 +298,13 @@ void options(int argc, char* argv[]){
             exit(EXIT_FAILURE);
         }
         else{
-
+            std::string inputDate = argv[2];
+            if(existsFile(inputDate)){
+                addItUp(inputDate);
+            }
+            else{
+                std::cout << "No data for the given date (" << inputDate << ")\n";
+            }
         }
     }
 }
