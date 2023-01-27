@@ -15,6 +15,7 @@ void usage(){
     std::cout << "    -e, --end              stops the timer\n";
     std::cout << "    -t, --table            prints the progress table for the day\n";
     std::cout << "    -b, --balance <DAY>    prints the total progress of a given day (format: 11Jan2022)\n";
+    std::cout << "    -c, --current          prints the current progress (how long has it been since -s without using -e)\n";
 
 }
 
@@ -187,6 +188,28 @@ void addItUp(std::string filename){
     f.close();
 }
 
+void showCurrentProgress(){
+    std::ifstream f("timeData.txt");
+    std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    std::time_t start;
+
+    f >> start;
+    if(start == 0){
+        std::cout << "the timer needs to start in order to display the current progress\n";
+        usage();
+        f.close();
+        exit(EXIT_FAILURE);
+    }
+
+    int seconds = 0, minutes = 0, hours = 0;
+    seconds = difftime(now, start);
+    
+    normalizeTheTime(hours, minutes, seconds);
+    std::cout << hours << "h " << minutes << "m " << seconds << "s\n";
+
+    f.close();
+}
+
 void stopTimer(){
     std::ifstream f("timeData.txt");
     std::time_t stop = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
@@ -238,9 +261,9 @@ void printTable(){
 
 void options(int argc, char* argv[]){
     int i;
-    int sflag = 0, eflag = 0, tflag = 0, bflag = 0, errflag = 0;
+    int sflag = 0, eflag = 0, tflag = 0, bflag = 0, cflag = 0, errflag = 0; 
     //s expects an argument, e does not
-    while((i = getopt(argc, argv, "s:etb")) != -1){
+    while((i = getopt(argc, argv, "s:etbc")) != -1){
         switch(i){
             case 's':
                 sflag++;
@@ -253,8 +276,13 @@ void options(int argc, char* argv[]){
             case 't':
                 tflag++;
                 break;
+
             case 'b':
                 bflag++;
+                break;
+
+            case 'c':
+                cflag++;
                 break;
 
             default:
@@ -307,6 +335,10 @@ void options(int argc, char* argv[]){
                 std::cout << "No data for the given date (" << inputDate << ")\n";
             }
         }
+    }
+
+    if(cflag == 1){
+        showCurrentProgress();
     }
 }
 
