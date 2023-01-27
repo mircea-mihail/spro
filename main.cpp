@@ -255,7 +255,7 @@ void printTable(){
         }
         f.close();
     }
-    std::cout << std::endl << "total: ";
+    std::cout << "total: \t\t";
     addItUp(getStringFromDate(now));
 }
 
