@@ -333,3 +333,5 @@ int main(int argc, char* argv[]){
 //total progress during last week
 
 //install and uninstall script
+
+//create the progress files in a separate folder
