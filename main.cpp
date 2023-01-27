@@ -351,11 +351,9 @@ int main(int argc, char* argv[]){
     }
     return 0;
 }
-//make print table work for other dates also
+//things to do (in no particular order):
 
-//-c --current progress
-//add a current progress option (how long has it been since you started)
-//but without losing the current progressm
+//make print table work for other dates also
 
 //-d --delete
 //delete a line 
