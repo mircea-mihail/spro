@@ -98,18 +98,28 @@ std::string getHourAndMinute(time_t time){
     return hourAndMinute;
 }
 
+void normalizeTheTime(int &hours, int &minutes, int &seconds){
+    int maux = 0;
+    int haux = 0;
+    if(seconds > 60){
+        maux = seconds / 60;
+        seconds -= maux * 60;
+    }
+    minutes += maux;
+    if(minutes > 60){
+        haux = minutes / 60;
+        minutes -= haux * 60;
+    }
+    hours += haux;
+}
+
+
 void addEntry(time_t start, time_t stop, std::string title){
-    std::time_t seconds = 0, minutes = 0, hours = 0;
+    int seconds = 0, minutes = 0, hours = 0;
     seconds = difftime(stop, start);
 
-    if(seconds > 60){
-        minutes = seconds / 60;
-        seconds -= minutes * 60;
-    }
-    if(minutes > 60){
-        hours = minutes / 60;
-        minutes -= hours * 60;
-    }
+    normalizeTheTime(hours, minutes, seconds);
+
     std::string filename = getDate(start);
 
     if(!existsFile(filename)){
@@ -122,6 +132,59 @@ void addEntry(time_t start, time_t stop, std::string title){
     g << "\t" << hours << "h "<< minutes << "m " << seconds << "s";
     g << '\t' << title << std::endl;
     g.close();
+}
+
+int numberOfRows(time_t day){
+    if(!existsFile(getDate(day))){
+        std::cout << "no file for the given date";
+        exit(EXIT_FAILURE);
+    }
+    char auxc;
+    int rows = 0;
+    std::string filename = getDate(day);
+    std::ifstream f(filename);
+    while(f>>std::noskipws>>auxc){
+        if(auxc == '\n'){
+            rows ++;
+        }
+    }
+    f.close();
+    return rows;
+}
+
+//anime cool watamote
+void addItUp(time_t day){
+    if(!existsFile(getDate(day))){
+        std::cout << "no file for the given date";
+        exit(EXIT_FAILURE);
+    }
+    int nrows = numberOfRows(day);
+    std::string filename = getDate(day);
+
+    std::ifstream f(filename);
+    std::string buffer;
+    char auxc;
+    int hours, minutes, seconds;
+    int totalHours = 0, totalMinutes = 0, totalSeconds = 0;
+    
+    for(int i = 0; i < nrows; i++){
+        for(int i = 0; i < 14; i++){
+            f >>std::noskipws>> auxc;
+        }
+        f >> hours; f >> auxc; f >> auxc;
+        f >> minutes; f >> auxc; f >> auxc; 
+        f >> seconds; f >> auxc; f >> auxc; 
+        totalHours += hours; totalMinutes += minutes; totalSeconds += seconds;
+        
+        while(auxc != '\n'){
+           f >>std::noskipws>> auxc;
+        } 
+    }
+    
+    normalizeTheTime(totalHours, totalMinutes, totalSeconds);
+    std::cout << totalHours << "h " << totalMinutes << "m " << totalSeconds << "s\n";
+
+    f.close();
 }
 
 void stopTimer(){
@@ -149,7 +212,7 @@ void stopTimer(){
 
     f.close();
 
-    std::ofstream g("timeData.txt");
+    std::ofstream g("timeData.txt"); 
     //for every entry added, the aux file needs to be updated with a 0, to avoid consecutive -e timing errors
     g << 0;
     g.close();
@@ -226,7 +289,8 @@ int main(int argc, char* argv[]){
     else{
         options(argc, argv);
     }
-
+    std::time_t today = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    addItUp(today);
     return 0;
 }
 //add a progress option (how long has it been since you started)
