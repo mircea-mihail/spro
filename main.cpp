@@ -14,6 +14,8 @@ void usage(){
     std::cout << "    -s, --start <TITLE>    starts the timer and sets the session title as TITLE\n";
     std::cout << "    -e, --end              stops the timer\n";
     std::cout << "    -t, --table            prints the progress table for the day\n";
+    std::cout << "    -b, --balance <DAY>    prints the total progress of a given day (format: 11Jan2022)\n";
+
 }
 
 void printWarning(){
@@ -231,7 +233,8 @@ void printTable(){
         }
         f.close();
     }
-
+    std::cout << std::endl << "total: ";
+    addItUp(now);
 }
 
 void options(int argc, char* argv[]){
@@ -289,8 +292,6 @@ int main(int argc, char* argv[]){
     else{
         options(argc, argv);
     }
-    std::time_t today = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    addItUp(today);
     return 0;
 }
 //add a progress option (how long has it been since you started)
