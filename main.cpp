@@ -136,14 +136,17 @@ void addEntry(time_t start, time_t stop, std::string title){
     g.close();
 }
 
-int numberOfRows(time_t day){
+std::string getStringFromDate(time_t day){
     if(!existsFile(getDate(day))){
         std::cout << "no file for the given date";
         exit(EXIT_FAILURE);
     }
+    return getDate(day);
+} 
+
+int numberOfRows(std::string filename){
     char auxc;
     int rows = 0;
-    std::string filename = getDate(day);
     std::ifstream f(filename);
     while(f>>std::noskipws>>auxc){
         if(auxc == '\n'){
@@ -155,13 +158,8 @@ int numberOfRows(time_t day){
 }
 
 //anime cool watamote
-void addItUp(time_t day){
-    if(!existsFile(getDate(day))){
-        std::cout << "no file for the given date";
-        exit(EXIT_FAILURE);
-    }
-    int nrows = numberOfRows(day);
-    std::string filename = getDate(day);
+void addItUp(std::string filename){
+    int nrows = numberOfRows(filename);
 
     std::ifstream f(filename);
     std::string buffer;
@@ -223,7 +221,7 @@ void stopTimer(){
 void printTable(){
     time_t now = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
     if(!existsFile(getDate(now))){
-        std::cout << "no data recorded for today\n";
+        std::cout << "no data recorded for today\n\n";
     }
     else{
         char c;
@@ -234,14 +232,14 @@ void printTable(){
         f.close();
     }
     std::cout << std::endl << "total: ";
-    addItUp(now);
+    addItUp(getStringFromDate(now));
 }
 
 void options(int argc, char* argv[]){
     int i;
-    int sflag = 0, eflag = 0, tflag = 0, errflag = 0;
+    int sflag = 0, eflag = 0, tflag = 0, bflag = 0, errflag = 0;
     //s expects an argument, e does not
-    while((i = getopt(argc, argv, "tes:")) != -1){
+    while((i = getopt(argc, argv, "s:etb")) != -1){
         switch(i){
             case 's':
                 sflag++;
@@ -253,6 +251,9 @@ void options(int argc, char* argv[]){
 
             case 't':
                 tflag++;
+                break;
+            case 'b':
+                bflag++;
                 break;
 
             default:
@@ -282,6 +283,23 @@ void options(int argc, char* argv[]){
 
     if(tflag == 1){
         printTable();
+    }
+
+    if(bflag == 1){
+        std::string title;
+        //use with no arguments:
+        if(argc == 2){
+            time_t today = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
+            addItUp(getStringFromDate(today));
+        }
+        else if(argc > 3){
+            std::cout << "Only one date at a time!\n\n";
+            usage();
+            exit(EXIT_FAILURE);
+        }
+        else{
+
+        }
     }
 }
 
