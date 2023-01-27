@@ -138,7 +138,7 @@ void addEntry(time_t start, time_t stop, std::string title){
 
 std::string getStringFromDate(time_t day){
     if(!existsFile(getDate(day))){
-        std::cout << "no file for the given date";
+        std::cout << "no file for the given date\n";
         exit(EXIT_FAILURE);
     }
     return getDate(day);
@@ -221,7 +221,8 @@ void stopTimer(){
 void printTable(){
     time_t now = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
     if(!existsFile(getDate(now))){
-        std::cout << "no data recorded for today\n\n";
+        std::cout << "no data recorded for today\n";
+        exit(EXIT_FAILURE);
     }
     else{
         char c;
@@ -318,6 +319,7 @@ int main(int argc, char* argv[]){
     }
     return 0;
 }
+//make print table work for other dates also
 
 //-c --current progress
 //add a current progress option (how long has it been since you started)
