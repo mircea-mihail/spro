@@ -241,22 +241,22 @@ void stopTimer(){
     g.close();
 }
 
-void printTable(){
-    time_t now = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
-    if(!existsFile(getDate(now))){
+void printTable(std::string filename){
+
+    if(!existsFile(filename)){
         std::cout << "no data recorded for today\n";
         exit(EXIT_FAILURE);
     }
     else{
         char c;
-        std::ifstream f(getDate(now));
+        std::ifstream f(filename);
         while(f>>std::noskipws>>c){
             std::cout << c;
         }
         f.close();
     }
     std::cout << "total: \t\t";
-    addItUp(getStringFromDate(now));
+    addItUp(filename);
 }
 
 void options(int argc, char* argv[]){
@@ -311,7 +311,8 @@ void options(int argc, char* argv[]){
     }
 
     if(tflag == 1){
-        printTable();
+        time_t now = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
+        printTable(getDate(now));
     }
 
     if(bflag == 1){
@@ -352,6 +353,9 @@ int main(int argc, char* argv[]){
     return 0;
 }
 //things to do (in no particular order):
+
+//add an "ongoing when calling -t" with the functionality of -c
+//and also make it add up to the total
 
 //make print table work for other dates also
 
