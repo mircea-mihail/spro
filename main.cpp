@@ -11,10 +11,7 @@ int main(int argc, char* argv[]){
 }
 
 
-//things to do (in no particular order):
-
-//add an "ongoing when calling -t" with the functionality of -c
-//and also make it add up to the total
+//things to do (in particular order):
 
 //-d --delete
 //delete a line 
@@ -24,6 +21,8 @@ int main(int argc, char* argv[]){
 
 //-w --week
 //total progress during last week
+
+//make -b take -c into account?
 
 //install and uninstall script
 
