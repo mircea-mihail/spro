@@ -21,4 +21,7 @@ std::string generateFilename(time_t start);
 //checks if a file with the date we seek exists, and if it does it returns a string 
 std::string getExistingFilename(time_t day);
 
+//returns true if auxfile contains a 0
+bool zeroAuxFile();
+
 #endif

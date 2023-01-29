@@ -77,18 +77,6 @@ int showCurrentProgress(){
     return auxseconds;
 }
 
-bool zeroAuxFile(){
-    std::ifstream f("timeData.txt");
-    std::time_t start;
-
-    f >> start;
-    f.close();
-
-    if(start == 0)
-        return true;
-    return false;
-}
-
 void printTable(std::string filename){
 
     if(!existsFile(filename)){
