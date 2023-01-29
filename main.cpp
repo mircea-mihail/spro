@@ -330,7 +330,6 @@ void options(int argc, char* argv[]){
     }
 
     if(bflag == 1){
-        std::string title;
         //use with no arguments:
         if(argc == 2){
             time_t today = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
