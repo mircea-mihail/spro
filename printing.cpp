@@ -22,7 +22,7 @@ void printWarning(){
     std::cout << "\nDON'T FORGET TO STOP THE TIMER!\n\n";
 }
 
-void addItUp(std::string filename){
+void addItUp(std::string filename, int extraSeconds){
     int nrows = numberOfRows(filename);
 
     std::ifstream f(filename);
@@ -44,11 +44,49 @@ void addItUp(std::string filename){
            f >>std::noskipws>> auxc;
         } 
     }
+
+    totalSeconds += extraSeconds;
     
     normalizeTheTime(totalHours, totalMinutes, totalSeconds);
     std::cout << totalHours << "h " << totalMinutes << "m " << totalSeconds << "s\n";
 
     f.close();
+}
+
+int showCurrentProgress(){
+    std::ifstream f("timeData.txt");
+    std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    std::time_t start;
+
+    f >> start;
+    if(start == 0){
+        std::cout << "the timer needs to start in order to display the current progress\n";
+        usage();
+        f.close();
+        return 0;
+    }
+
+    int seconds = 0, minutes = 0, hours = 0;
+    seconds = difftime(now, start);
+    int auxseconds = seconds;
+
+    normalizeTheTime(hours, minutes, seconds);
+    std::cout << hours << "h " << minutes << "m " << seconds << "s\n";
+
+    f.close();
+    return auxseconds;
+}
+
+bool zeroAuxFile(){
+    std::ifstream f("timeData.txt");
+    std::time_t start;
+
+    f >> start;
+    f.close();
+
+    if(start == 0)
+        return true;
+    return false;
 }
 
 void printTable(std::string filename){
@@ -65,28 +103,11 @@ void printTable(std::string filename){
         }
         f.close();
     }
-    std::cout << "total: \t\t";
-    addItUp(filename);
-}
-
-void showCurrentProgress(){
-    std::ifstream f("timeData.txt");
-    std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    std::time_t start;
-
-    f >> start;
-    if(start == 0){
-        std::cout << "the timer needs to start in order to display the current progress\n";
-        usage();
-        f.close();
-        exit(EXIT_FAILURE);
+    int extraSeconds = 0;
+    if(!zeroAuxFile()){
+        std::cout << "ongoing:\t";
+        extraSeconds = showCurrentProgress();
     }
-
-    int seconds = 0, minutes = 0, hours = 0;
-    seconds = difftime(now, start);
-    
-    normalizeTheTime(hours, minutes, seconds);
-    std::cout << hours << "h " << minutes << "m " << seconds << "s\n";
-
-    f.close();
+    std::cout << "\ntotal: \t\t";
+    addItUp(filename, extraSeconds);
 }

@@ -83,7 +83,7 @@ void options(int argc, char* argv[]){
         //use with no arguments:
         if(argc == 2){
             time_t today = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
-            addItUp(getExistingFilename(today));
+            addItUp(getExistingFilename(today), 0);
         }
         else if(argc > 3){
             std::cout << "Only one date at a time!\n\n";
@@ -93,7 +93,7 @@ void options(int argc, char* argv[]){
         else{
             std::string inputDate = argv[2];
             if(existsFile(inputDate)){
-                addItUp(inputDate);
+                addItUp(inputDate, 0);
             }
             else{
                 std::cout << "No data for the given date (" << inputDate << ")\n";

@@ -11,12 +11,12 @@ void printWarning();
 
 //anime cool watamote
 //prints a total number of hours, minutes and seconds in a file
-void addItUp(std::string filename);
+void addItUp(std::string filename, int extraSeconds);
+
+//displays the unfinished progress form -s without ending it with -e
+int showCurrentProgress();
 
 //prints the filename contents
 void printTable(std::string filename);
-
-//displays the unfinished progress form -s without ending it with -e
-void showCurrentProgress();
 
 #endif
