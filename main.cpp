@@ -6,6 +6,7 @@
 #include <chrono>
 #include <ratio>
 
+//prints the way you're supposed to use the application
 void usage(){
     std::cout << "Usage: spro [OPTION]...\n";
     std::cout << "Bash tool to track your progress while studying\n\n";
@@ -19,10 +20,12 @@ void usage(){
 
 }
 
+//prints a warning to remind you to stop the timer
 void printWarning(){
     std::cout << "\nDON'T FORGET TO STOP THE TIMER!\n\n";
 }
 
+//starts the timer -> writes to an aux file the time in system time
 void startTimer(std::string title){
     std::ifstream checkFile("timeData.txt");
     time_t check = 0;
@@ -41,6 +44,7 @@ void startTimer(std::string title){
     f.close();
 }
 
+//returns true if a file with the name filename exists
 bool existsFile(std::string fileName){
     std::ifstream f(fileName);
     if(f.good()){
@@ -52,7 +56,8 @@ bool existsFile(std::string fileName){
     
 }
 
-std::string getDate(time_t start){
+//generates the according filename to the time given to the function
+std::string generateFilename(time_t start){
     std::string filename, month;
     std::size_t pos;
     std::string aux = ctime(&start);
@@ -83,8 +88,9 @@ std::string getDate(time_t start){
     return filename;
 }
 
+//returns the hour and minute in this format 01:41
 std::string getHourAndMinute(time_t time){
-    //format: Mon Oct 11 17:10:55 2021
+    //ctime format: Mon Oct 11 17:10:55 2021
     std::string hourAndMinute, aux = ctime(&time);
     std::size_t pos;
     int colonflag = 0;
@@ -101,6 +107,7 @@ std::string getHourAndMinute(time_t time){
     return hourAndMinute;
 }
 
+//system time is in seconds so this function makes the seconds and minutes less than 60
 void normalizeTheTime(int &hours, int &minutes, int &seconds){
     int maux = 0;
     int haux = 0;
@@ -116,14 +123,14 @@ void normalizeTheTime(int &hours, int &minutes, int &seconds){
     hours += haux;
 }
 
-
+//writes to the appropriate file the time spent studying from -s to -e
 void addEntry(time_t start, time_t stop, std::string title){
     int seconds = 0, minutes = 0, hours = 0;
     seconds = difftime(stop, start);
 
     normalizeTheTime(hours, minutes, seconds);
 
-    std::string filename = getDate(start);
+    std::string filename = generateFilename(start);
 
     if(!existsFile(filename)){
         std::ofstream f(filename);
@@ -137,14 +144,16 @@ void addEntry(time_t start, time_t stop, std::string title){
     g.close();
 }
 
-std::string getStringFromDate(time_t day){
-    if(!existsFile(getDate(day))){
+//checks if a file with the date we seek exists, and if it does it returns a string 
+std::string getExistingFilename(time_t day){
+    if(!existsFile(generateFilename(day))){
         std::cout << "no file for the given date\n";
         exit(EXIT_FAILURE);
     }
-    return getDate(day);
+    return generateFilename(day);
 } 
 
+//returns the number of rows of a given filename
 int numberOfRows(std::string filename){
     char auxc;
     int rows = 0;
@@ -159,6 +168,7 @@ int numberOfRows(std::string filename){
 }
 
 //anime cool watamote
+//prints a total number of hours, minutes and seconds in a file
 void addItUp(std::string filename){
     int nrows = numberOfRows(filename);
 
@@ -188,6 +198,7 @@ void addItUp(std::string filename){
     f.close();
 }
 
+//displays the unfinished progress form -s without ending it with -e
 void showCurrentProgress(){
     std::ifstream f("timeData.txt");
     std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
@@ -210,6 +221,7 @@ void showCurrentProgress(){
     f.close();
 }
 
+//stops the timer and adds an entry, making the auxfile empty (writing 0 to it)
 void stopTimer(){
     std::ifstream f("timeData.txt");
     std::time_t stop = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
@@ -241,6 +253,7 @@ void stopTimer(){
     g.close();
 }
 
+//prints the filename contents
 void printTable(std::string filename){
 
     if(!existsFile(filename)){
@@ -259,6 +272,7 @@ void printTable(std::string filename){
     addItUp(filename);
 }
 
+//reads the input from the user and calls the appropriate function to honor the request
 void options(int argc, char* argv[]){
     int i;
     int sflag = 0, eflag = 0, tflag = 0, bflag = 0, cflag = 0, errflag = 0; 
@@ -312,7 +326,7 @@ void options(int argc, char* argv[]){
 
     if(tflag == 1){
         time_t now = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
-        printTable(getDate(now));
+        printTable(generateFilename(now));
     }
 
     if(bflag == 1){
@@ -320,7 +334,7 @@ void options(int argc, char* argv[]){
         //use with no arguments:
         if(argc == 2){
             time_t today = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
-            addItUp(getStringFromDate(today));
+            addItUp(getExistingFilename(today));
         }
         else if(argc > 3){
             std::cout << "Only one date at a time!\n\n";
@@ -343,6 +357,7 @@ void options(int argc, char* argv[]){
     }
 }
 
+//main function
 int main(int argc, char* argv[]){
     if(argc <= 1){
         usage();
