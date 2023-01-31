@@ -19,4 +19,7 @@ int showCurrentProgress();
 //prints the filename contents
 void printTable(std::string filename);
 
+//does the actual printing of the file from printtable without printing 0h (clutters the info)
+void dealWith0h(char c, char &tabNl, int &twoSpaces, bool &hflag);
+
 #endif

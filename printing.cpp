@@ -5,8 +5,8 @@
 
 void usage(){
     std::cout << "Usage: spro [OPTION]...\n";
-    std::cout << "Bash tool to track your progress while studying\n\n";
-
+    std::cout << "Bash tool to track your progress while studying\n";
+    std::cout << "\n";
     std::cout << "Options:\n";
     std::cout << "    -s, --start <TITLE>   starts the timer and sets the session title as TITLE\n";
     std::cout << "    -e, --end             stops the timer\n";
@@ -77,17 +77,47 @@ int showCurrentProgress(){
     return auxseconds;
 }
 
+void dealWith0h(char c, char &tabNl, int &twoSpaces, bool &hflag){
+    if(twoSpaces != 0){
+        if(twoSpaces == 2 && (c != '0')){
+            std::cout << c;
+            hflag = true;
+        }
+        else if(hflag == true){
+            hflag = false;
+            std::cout << 'h';
+        }
+        else{
+            std::cout << ' ';
+        }
+        twoSpaces--;
+    }
+    else{
+        std::cout << c;
+    }
+    if(tabNl == '\n' && c == '\t'){
+        twoSpaces = 2;
+    }
+    if(c == '\n')
+        tabNl = c;
+    if(c == '\t')
+        tabNl = c;
+}
+
 void printTable(std::string filename){
+    char tabNl = '\n';
+    int twoSpaces = 0; 
+    bool hflag = false;
 
     if(!existsFile(filename)){
         std::cout << "no data recorded for today\n";
         exit(EXIT_FAILURE);
     }
     else{
-        char c;
+        char c; 
         std::ifstream f(filename);
         while(f>>std::noskipws>>c){
-            std::cout << c;
+            dealWith0h(c, tabNl, twoSpaces, hflag);
         }
         f.close();
     }

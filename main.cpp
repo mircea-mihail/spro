@@ -22,7 +22,7 @@ int main(int argc, char* argv[]){
 //-w --week
 //total progress during last week
 
-//make -b take -c into account?
+//make -b take -c into account? are -b and -c even useful anymore?
 
 //install and uninstall script
 
