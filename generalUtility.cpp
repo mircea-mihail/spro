@@ -8,12 +8,12 @@
 void normalizeTheTime(int &hours, int &minutes, int &seconds){
     int maux = 0;
     int haux = 0;
-    if(seconds > 60){
+    if(seconds >= 60){
         maux = seconds / 60;
         seconds -= maux * 60;
     }
     minutes += maux;
-    if(minutes > 60){
+    if(minutes >= 60){
         haux = minutes / 60;
         minutes -= haux * 60;
     }
