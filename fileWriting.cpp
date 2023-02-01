@@ -30,7 +30,7 @@ void addEntry(time_t start, time_t stop, std::string title){
 
     normalizeTheTime(hours, minutes, seconds);
 
-    std::string filename = generateFilename(start);
+    std::string filename = generateFilename(stop);
 
     if(!existsFile(filename)){
         std::ofstream f(filename);
