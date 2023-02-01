@@ -76,7 +76,15 @@ time_t showCurrentProgress(){
     time_t auxseconds = seconds;
 
     normalizeTheTime(hours, minutes, seconds);
-    std::cout << hours << "h " << minutes << "m " << seconds << "s\n";
+    
+    if(hours != 0){
+        std::cout << hours << "h ";
+    }
+    else{
+        std::cout << "   ";
+    }
+    std::cout << minutes << "m ";
+    std::cout << seconds << "s\n";
 
     f.close();
     return auxseconds;
