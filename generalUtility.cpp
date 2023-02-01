@@ -49,9 +49,7 @@ std::string getHourAndMinute(time_t time){
     std::string hourAndMinute, aux = ctime(&time);
     std::size_t pos;
     int colonflag = 0;
-    pos = aux.find_first_of(" ");
-    pos = aux.find_first_of(" ", pos + 1);
-    pos = aux.find_first_of(" ", pos + 1) + 1;
+    pos = 11;
     //hours
     while(colonflag < 2){
         hourAndMinute += aux[pos];

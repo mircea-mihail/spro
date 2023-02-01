@@ -10,6 +10,8 @@ int main(int argc, char* argv[]){
     return 0;
 }
 
+//BUG:
+//ongoing is added to older files when doing -t
 
 //things to do (in particular order):
 
