@@ -105,6 +105,7 @@ void dealWith0h(char c, char &tabNl, int &twoSpaces, bool &hflag){
 }
 
 void printTable(std::string filename){
+    std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     char tabNl = '\n';
     int twoSpaces = 0; 
     bool hflag = false;
@@ -122,7 +123,7 @@ void printTable(std::string filename){
         f.close();
     }
     int extraSeconds = 0;
-    if(!zeroAuxFile()){
+    if(!zeroAuxFile() && (filename == generateFilename(now))){
         std::cout << "ongoing:\t";
         extraSeconds = showCurrentProgress();
     }
