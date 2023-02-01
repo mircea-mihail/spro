@@ -75,7 +75,9 @@ std::string generateFilename(time_t start){
 
     //day
     do{
-        filename += aux[pos];
+        if(aux[pos] != ' '){
+            filename += aux[pos];
+        }   
         pos ++;
     }while(aux[pos] != ' ');
 
