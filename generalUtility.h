@@ -4,7 +4,7 @@
 #include "generalUtility.cpp"
 
 //system time is in seconds so this function makes the seconds and minutes less than 60
-void normalizeTheTime(int &hours, int &minutes, int &seconds);
+void normalizeTheTime(time_t &hours, time_t &minutes, time_t &seconds);
 
 //returns the number of rows of a given filename
 int numberOfRows(std::string filename);
