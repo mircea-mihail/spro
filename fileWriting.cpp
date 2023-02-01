@@ -25,7 +25,7 @@ void startTimer(std::string title){
 }
 
 void addEntry(time_t start, time_t stop, std::string title){
-    int seconds = 0, minutes = 0, hours = 0;
+    time_t seconds = 0, minutes = 0, hours = 0;
     seconds = difftime(stop, start);
 
     normalizeTheTime(hours, minutes, seconds);

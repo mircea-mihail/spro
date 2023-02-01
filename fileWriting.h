@@ -3,8 +3,6 @@
 
 #include "fileWriting.cpp"
 
-//#include "main.cpp"
-
 //starts the timer -> writes to an aux file the time in system time
 void startTimer(std::string title);
 
