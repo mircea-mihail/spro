@@ -9,9 +9,10 @@
 
 void options(int argc, char* argv[]){
     int i;
-    int sflag = 0, eflag = 0, tflag = 0, bflag = 0, cflag = 0, errflag = 0; 
+    int sflag = 0, eflag = 0, tflag = 0, errflag = 0; 
+    int bflag = 0, cflag = 0, wflag = 0;
     //s expects an argument, e does not
-    while((i = getopt(argc, argv, "s:etbc")) != -1){
+    while((i = getopt(argc, argv, "s:etbcw")) != -1){
         switch(i){
             case 's':
                 sflag++;
@@ -31,6 +32,10 @@ void options(int argc, char* argv[]){
 
             case 'c':
                 cflag++;
+                break;
+
+            case 'w':
+                wflag++;
                 break;
 
             default:
@@ -103,5 +108,9 @@ void options(int argc, char* argv[]){
 
     if(cflag == 1){
         showCurrentProgress();
+    }
+    
+    if(wflag == 1){
+        lastWeek();
     }
 }

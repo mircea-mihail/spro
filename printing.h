@@ -11,15 +11,18 @@ void printWarning();
 
 //anime cool watamote
 //prints a total number of hours, minutes and seconds in a file
-void addItUp(std::string filename, int extraSeconds);
+time_t addItUp(std::string filename, int extraSeconds);
 
 //displays the unfinished progress form -s without ending it with -e
-int showCurrentProgress();
+time_t showCurrentProgress();
 
 //prints the filename contents
-void printTable(std::string filename);
+time_t printTable(std::string filename);
 
 //does the actual printing of the file from printtable without printing 0h (clutters the info)
 void dealWith0h(char c, char &tabNl, int &twoSpaces, bool &hflag);
+
+//prints the dates and the overall total progress from the past week
+void lastWeek();
 
 #endif

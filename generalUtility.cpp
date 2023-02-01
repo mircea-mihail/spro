@@ -5,9 +5,9 @@
 
 #include "generalUtility.h"
 
-void normalizeTheTime(int &hours, int &minutes, int &seconds){
-    int maux = 0;
-    int haux = 0;
+void normalizeTheTime(time_t &hours, time_t &minutes, time_t &seconds){
+    time_t maux = 0;
+    time_t haux = 0;
     if(seconds >= 60){
         maux = seconds / 60;
         seconds -= maux * 60;

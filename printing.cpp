@@ -3,6 +3,8 @@
 #include "printing.h"
 #include "generalUtility.h"
 
+const time_t SECONDS_IN_A_DAY =  86400;
+
 void usage(){
     std::cout << "Usage: spro [OPTION]...\n";
     std::cout << "Bash tool to track your progress while studying\n";
@@ -15,6 +17,8 @@ void usage(){
     std::cout << "    -b, --balance <DAY>   prints the total progress of a given day (format: 11Jan2022)\n";
     std::cout << "                          if no <DAY> is given, the current day is implied\n";
     std::cout << "    -c, --current         prints the current progress (how long has it been since -s without using -e)\n";
+    std::cout << "    -w, --week            does a -t on every file within the past 7 days\n";
+    std::cout << "                          and displays a total amount of hours worked during that time\n";
 
 }
 
@@ -22,14 +26,13 @@ void printWarning(){
     std::cout << "\nDON'T FORGET TO STOP THE TIMER!\n\n";
 }
 
-void addItUp(std::string filename, int extraSeconds){
+time_t addItUp(std::string filename, int extraSeconds){
     int nrows = numberOfRows(filename);
-
     std::ifstream f(filename);
     std::string buffer;
     char auxc;
-    int hours, minutes, seconds;
-    int totalHours = 0, totalMinutes = 0, totalSeconds = 0;
+    time_t hours, minutes, seconds;
+    time_t totalHours = 0, totalMinutes = 0, totalSeconds = 0;
     
     for(int i = 0; i < nrows; i++){
         for(int i = 0; i < 14; i++){
@@ -46,14 +49,16 @@ void addItUp(std::string filename, int extraSeconds){
     }
 
     totalSeconds += extraSeconds;
-    
+
     normalizeTheTime(totalHours, totalMinutes, totalSeconds);
     std::cout << totalHours << "h " << totalMinutes << "m " << totalSeconds << "s\n";
 
     f.close();
+
+    return totalHours * 3600 + totalMinutes * 60 + totalSeconds;
 }
 
-int showCurrentProgress(){
+time_t showCurrentProgress(){
     std::ifstream f("timeData.txt");
     std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     std::time_t start;
@@ -66,9 +71,9 @@ int showCurrentProgress(){
         return 0;
     }
 
-    int seconds = 0, minutes = 0, hours = 0;
+    time_t seconds = 0, minutes = 0, hours = 0;
     seconds = difftime(now, start);
-    int auxseconds = seconds;
+    time_t auxseconds = seconds;
 
     normalizeTheTime(hours, minutes, seconds);
     std::cout << hours << "h " << minutes << "m " << seconds << "s\n";
@@ -104,15 +109,16 @@ void dealWith0h(char c, char &tabNl, int &twoSpaces, bool &hflag){
         tabNl = c;
 }
 
-void printTable(std::string filename){
+time_t printTable(std::string filename){
     std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     char tabNl = '\n';
     int twoSpaces = 0; 
     bool hflag = false;
+    time_t finalSeconds = 0;
 
     if(!existsFile(filename)){
         std::cout << "no data recorded for today\n";
-        exit(EXIT_FAILURE);
+        return -1;
     }
     else{
         char c; 
@@ -122,11 +128,27 @@ void printTable(std::string filename){
         }
         f.close();
     }
-    int extraSeconds = 0;
+    time_t extraSeconds = 0;
     if(!zeroAuxFile() && (filename == generateFilename(now))){
         std::cout << "ongoing:\t";
         extraSeconds = showCurrentProgress();
     }
     std::cout << "\ntotal: \t\t";
-    addItUp(filename, extraSeconds);
+    finalSeconds = addItUp(filename, extraSeconds);
+    
+    return finalSeconds;
+}
+
+void lastWeek(){
+    time_t today = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
+    time_t finalSeconds = 0, finalHours = 0, finalMinutes = 0;
+    for(int i = 0; i < 7; i++){
+        if(existsFile(generateFilename(today))){
+            //std::cout << std::endl << generateFilename(today) << ':' << std::endl;
+            finalSeconds += printTable(generateFilename(today));
+        }
+        today -= SECONDS_IN_A_DAY;
+    }
+    normalizeTheTime(finalHours, finalMinutes, finalSeconds);
+    std::cout << "\nabsolute total:\t" << finalHours << "h " << finalMinutes << "m " << finalSeconds << "s \n";
 }
