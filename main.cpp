@@ -9,14 +9,17 @@ int main(int argc, char* argv[]){
     }
     return 0;
 }
-
-//BUG:
-//ongoing is added to older files when doing -t
-
 //things to do (in particular order):
 
 //-d --delete
 //delete a line 
+
+//make it so that when working from 23:30 to 12:20
+//it adds 30 minutes to the first day and
+//from 23:30 to 00:00
+
+//it also creates a new file where it adds 20 minutes 
+//from 12:00 to 00:20
 
 //-m --manual
 //manual input
