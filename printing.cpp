@@ -152,8 +152,9 @@ void lastWeek(){
     time_t finalSeconds = 0, finalHours = 0, finalMinutes = 0;
     for(int i = 0; i < 7; i++){
         if(existsFile(generateFilename(today))){
-            //std::cout << std::endl << generateFilename(today) << ':' << std::endl;
+            std::cout << std::endl  << generateFilename(today) << ":\n\n";
             finalSeconds += printTable(generateFilename(today));
+            std::cout << "_________________________\n";
         }
         today -= SECONDS_IN_A_DAY;
     }
