@@ -11,9 +11,6 @@ int main(int argc, char* argv[]){
 }
 //things to do (in particular order):
 
-//-w --week
-//total progress during last week
-
 //-m --manual
 //manual input
 

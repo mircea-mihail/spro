@@ -10,9 +10,9 @@
 void options(int argc, char* argv[]){
     int i;
     int sflag = 0, eflag = 0, tflag = 0, errflag = 0; 
-    int bflag = 0, cflag = 0, wflag = 0;
+    int bflag = 0, cflag = 0, wflag = 0, dflag = 0;
     //s expects an argument, e does not
-    while((i = getopt(argc, argv, "s:etbcw")) != -1){
+    while((i = getopt(argc, argv, "s:etbcwd")) != -1){
         switch(i){
             case 's':
                 sflag++;
@@ -36,6 +36,10 @@ void options(int argc, char* argv[]){
 
             case 'w':
                 wflag++;
+                break;
+
+            case 'd':
+                dflag++;
                 break;
 
             default:
@@ -112,5 +116,9 @@ void options(int argc, char* argv[]){
     
     if(wflag == 1){
         lastWeek();
+    }
+
+    if(dflag == 1){
+        std::cout << "dflag\n";
     }
 }
