@@ -119,6 +119,9 @@ void options(int argc, char* argv[]){
     }
 
     if(dflag == 1){
-        std::cout << "dflag\n";
+        int line = atoi(argv[2]);
+        time_t today = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
+        std::cout << "dflag, linia " << line << '\n' ;
+        deleteLine(line, generateFilename(today));
     }
 }

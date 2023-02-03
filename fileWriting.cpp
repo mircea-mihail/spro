@@ -74,3 +74,29 @@ void stopTimer(){
     g << 0;
     g.close();
 }
+
+void deleteLine(int line, std::string filename){
+    if(line > numberOfRows(filename)){
+        std::cout << "the file only has " << numberOfRows(filename) << " lines\n";
+        exit(EXIT_FAILURE);
+    }
+    char auxc;
+    int rows = 1;
+    std::ofstream af("auxFile.txt");
+    std::ifstream mf(filename);
+    while(mf>>std::noskipws>>auxc){
+        if(auxc == '\n'){
+            rows ++;
+        }
+        af << auxc;
+        if(rows == line){
+            mf>>std::noskipws>>auxc;
+            while(auxc != '\n'){
+                mf>>std::noskipws>>auxc;
+            }
+            rows ++;
+        }
+    }
+    mf.close();
+    af.close();
+}
