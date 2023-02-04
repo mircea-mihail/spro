@@ -75,11 +75,7 @@ void stopTimer(){
     g.close();
 }
 
-void deleteLine(int line, std::string filename){
-    if(line > numberOfRows(filename)){
-        std::cout << "the file only has " << numberOfRows(filename) << " lines\n";
-        exit(EXIT_FAILURE);
-    }
+void rewriteToAuxFile(int line, std::string filename){
     char auxc;
     int rows = 1;
     std::ofstream af("auxFile.txt");
@@ -99,4 +95,29 @@ void deleteLine(int line, std::string filename){
     }
     mf.close();
     af.close();
+}
+
+void copyToMainFile(int line, std::string filename){
+    char auxc;
+    std::ofstream mf(filename);
+    std::ifstream af("auxFile.txt");
+    while(af>>std::noskipws>>auxc){
+        mf << auxc;
+    }
+    mf.close();
+    af.close();
+}
+
+void deleteLine(int line, std::string filename){
+    if(line > numberOfRows(filename)){
+        std::cout << "the file only has " << numberOfRows(filename) << " lines\n";
+        exit(EXIT_FAILURE);
+    }    
+    if(line <= 0){
+        std::cout << "no rows below 0 in this file\n";
+    }
+
+    rewriteToAuxFile(line, filename); 
+    
+    copyToMainFile(line, filename);
 }
