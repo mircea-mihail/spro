@@ -84,7 +84,9 @@ void rewriteToAuxFile(int line, std::string filename){
         if(auxc == '\n'){
             rows ++;
         }
-        af << auxc;
+        if(rows != 1 || (rows == 1 && rows != line))
+            af << auxc;
+        
         if(rows == line){
             mf>>std::noskipws>>auxc;
             while(auxc != '\n'){

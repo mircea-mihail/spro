@@ -11,6 +11,11 @@ int main(int argc, char* argv[]){
 }
 //things to do (in particular order):
 
+//-d --delete
+//delete a line 
+//display a warning and contents to be deleted
+//make multiple deletions happen
+
 //-m --manual
 //manual input
 
@@ -19,9 +24,6 @@ int main(int argc, char* argv[]){
 //from 23:30 to 00:00
 //it also creates a new file where it adds 20 minutes 
 //from 12:00 to 00:20
-
-//-d --delete
-//delete a line 
 
 //make -b take -c into account? are -b and -c even useful anymore?
 
