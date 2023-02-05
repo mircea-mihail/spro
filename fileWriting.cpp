@@ -75,8 +75,9 @@ void stopTimer(){
     g.close();
 }
 
-void rewriteToAuxFile(int line, std::string filename){
+std::string rewriteToAuxFile(int line, std::string filename){
     char auxc;
+    std::string areYouSure;
     int rows = 1;
     std::ofstream af("auxFile.txt");
     std::ifstream mf(filename);
@@ -88,15 +89,21 @@ void rewriteToAuxFile(int line, std::string filename){
             af << auxc;
         
         if(rows == line){
+            if(auxc != '\n'){
+                areYouSure += auxc;
+            }
             mf>>std::noskipws>>auxc;
+            areYouSure += auxc;
             while(auxc != '\n'){
                 mf>>std::noskipws>>auxc;
+                areYouSure += auxc;
             }
             rows ++;
         }
     }
     mf.close();
     af.close();
+    return areYouSure;
 }
 
 void copyToMainFile(int line, std::string filename){
@@ -112,14 +119,20 @@ void copyToMainFile(int line, std::string filename){
 
 void deleteLine(int line, std::string filename){
     if(line > numberOfRows(filename)){
-        std::cout << "the file only has " << numberOfRows(filename) << " lines\n";
+        std::cout << "the file only has " << numberOfRows(filename) << ((numberOfRows(filename) == 1)?" line\n" : " lines\n");
         exit(EXIT_FAILURE);
     }    
     if(line <= 0){
         std::cout << "no rows below 0 in this file\n";
     }
 
-    rewriteToAuxFile(line, filename); 
+    std::string areYouSure = rewriteToAuxFile(line, filename); 
     
-    copyToMainFile(line, filename);
+    std::cout << "are you sure you want to delete this line:\n" << "\033[1;31m" << areYouSure << "\033[0m";
+    std::cout << "enter for yes, any other key for no\n";
+    char yesno = 'n';
+    std::cin >>std::noskipws>> yesno;
+    if(yesno == '\n'){
+        copyToMainFile(line, filename);
+    }
 }

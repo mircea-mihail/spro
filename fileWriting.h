@@ -13,7 +13,7 @@ void addEntry(time_t start, time_t stop, std::string title);
 void stopTimer();
 
 //copies to an aux file the contents of the willing to delete file without the unwanted line
-void rewriteToAuxFile(int line, std::string filename);
+std::string rewriteToAuxFile(int line, std::string filename);
 
 //copies back the contents of the aux file to the main one 
 void copyToMainFile(int line, std::string filename);
