@@ -160,7 +160,7 @@ time_t printTable(std::string filename){
 void lastWeek(){
     time_t today = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
     time_t finalSeconds = 0, finalHours = 0, finalMinutes = 0;
-    today -= SECONDS_IN_A_DAY * 7;
+    today -= SECONDS_IN_A_DAY * 6;
     for(int i = 0; i < 7; i++){
         if(existsFile(generateFilename(today))){
             std::cout << std::endl  << generateFilename(today) << ":\n\n";
