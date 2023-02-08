@@ -123,12 +123,22 @@ void options(int argc, char* argv[]){
             std::cout << "no line given to be deleted\n";
             usage();
         }
-        else{
+        else if(argc == 3){
             int line;
             line = atoi(argv[2]);
             time_t today = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
             deleteLine(line, generateFilename(today));
         }
-
+        else if(argc == 4){
+            if(!existsFile(argv[3])){
+                std::cout << "no file under the name \"" << argv[3] << "\"";
+            }
+            int line;
+            line = atoi(argv[2]);
+            deleteLine(line, argv[3]);
+        }
+        else {
+            usage();
+        }
     }
 }
