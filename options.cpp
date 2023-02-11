@@ -11,6 +11,8 @@ void options(int argc, char* argv[]){
     int i;
     int sflag = 0, eflag = 0, tflag = 0, errflag = 0; 
     int bflag = 0, cflag = 0, wflag = 0, dflag = 0;
+    time_t today = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
+
     //s expects an argument, e does not
     while((i = getopt(argc, argv, "s:etbcwd")) != -1){
         switch(i){
@@ -69,8 +71,7 @@ void options(int argc, char* argv[]){
 
     if(tflag == 1){
         if(argc == 2){
-            time_t now = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
-            printTable(generateFilename(now));
+            printTable(generateFilename(today));
         }
         else if(argc > 3){
             std::cout << "Only one date at a time!\n\n";
@@ -91,7 +92,6 @@ void options(int argc, char* argv[]){
     if(bflag == 1){
         //use with no arguments:
         if(argc == 2){
-            time_t today = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
             addItUp(getExistingFilename(today), 0);
         }
         else if(argc > 3){
@@ -126,7 +126,6 @@ void options(int argc, char* argv[]){
         else if(argc == 3){
             int line;
             line = atoi(argv[2]);
-            time_t today = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
             deleteLine(line, generateFilename(today));
         }
         else if(argc == 4){
