@@ -1,7 +1,10 @@
 # spro: Shell-Productivity
 spro, short for Shell Productivity, is a terminal application meant to track your productive hours
 
-# Usage
+##Inspiration
+The idea for this whole project came from my desire to track my productivity during a term. I would write on a piece of paper the time I started learning for a particular exam, and the time I stopped and at the end of the day I would add it all up. As this whole thing would usually be pretty tedious to do and also quite time consuming, I ended up automating this whole process in C++.
+
+## Usage
 ```
 Usage: spro [OPTION]...
 Bash tool to track your progress while studying
