@@ -18,4 +18,4 @@ Options:
                           and displays a total amount of hours worked during that time
 ```
 ## Inspiration
-The idea for this whole project came from my desire to track my productivity during a term. I would write on a piece of paper the time I started learning for a particular exam, and the time I stopped and at the end of the day I would add it all up. As this whole thing would usually be pretty tedious to do and also quite time consuming, I ended up automating this whole process in C++.
+The idea for this whole project came from my desire to track my productivity during a term. I would write on a piece of paper the time when I started learning for a particular exam, and the time when I stopped and at the end of the day I would add it all up. As this whole thing would usually be pretty tedious to do and also quite time consuming, I ended up automating this whole process in C++.
