@@ -26,7 +26,7 @@ void printWarning(){
     std::cout << "\nDON'T FORGET TO STOP THE TIMER!\n\n";
 }
 
-time_t addItUp(std::string filename, time_t extraSeconds){
+time_t addItUp(std::string filename, time_t extraSeconds = 0){
     int nrows = numberOfRows(filename);
     std::ifstream f(filename);
     std::string buffer;

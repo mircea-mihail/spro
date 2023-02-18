@@ -92,7 +92,7 @@ void options(int argc, char* argv[]){
     if(bflag == 1){
         //use with no arguments:
         if(argc == 2){
-            addItUp(getExistingFilename(today), 0);
+            addItUp(getExistingFilename(today));
         }
         else if(argc > 3){
             std::cout << "Only one date at a time!\n\n";
@@ -102,7 +102,7 @@ void options(int argc, char* argv[]){
         else{
             std::string inputDate = argv[2];
             if(existsFile(inputDate)){
-                addItUp(inputDate, 0);
+                addItUp(inputDate);
             }
             else{
                 std::cout << "No data for the given date (" << inputDate << ")\n";

@@ -11,14 +11,6 @@ int main(int argc, char* argv[]){
 }
 //things to do (in particular order):
 
-//-d --delete
-//delete a line 
-//display a warning and contents to be deleted
-//make multiple deletions happen
-
-//-m --manual
-//manual input
-
 //make it so that when working from 23:30 to 12:20
 //it adds 30 minutes to the first day and
 //from 23:30 to 00:00
