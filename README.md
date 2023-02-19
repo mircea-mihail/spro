@@ -17,5 +17,38 @@ Options:
     -w, --week            does a -t on every file within the past 7 days
                           and displays a total amount of hours worked during that time
 ```
+
+## Examples
+
+Start the timer for developing a project:
+
+```
+spro -s project development
+```
+
+Stop the timer and display the table for today's progress:
+
+```
+spro -et
+```
+
+Print the table for today's progress:
+
+```
+spro -t
+```
+
+Print the table for the progress made on the 19th of February 2023:
+
+```
+spro -t 19Feb2023
+```
+
+Print the progress made during last week:
+
+```
+spro -w
+```
+
 ## Inspiration
 The idea for this whole project came from my desire to track my productivity during a term. I would write on a piece of paper the time when I started learning for a particular exam, and the time when I stopped and at the end of the day I would add it all up. As this whole thing would usually be pretty tedious to do and also quite time consuming, I ended up automating this whole process in C++.
