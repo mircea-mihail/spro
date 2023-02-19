@@ -17,8 +17,6 @@ int main(int argc, char* argv[]){
 //it also creates a new file where it adds 20 minutes 
 //from 12:00 to 00:20
 
-//make -b take -c into account? are -b and -c even useful anymore?
-
 //install and uninstall script
 
 //create the progress files in a separate folder

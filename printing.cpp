@@ -14,12 +14,12 @@ void usage(){
     std::cout << "    -e, --end             stops the timer\n";
     std::cout << "    -t, --table <DAY>     prints the progress table for the day <DAY> is optional\n";
     std::cout << "                          if no <DAY> is given, the current day is implied\n";
-    std::cout << "    -b, --balance <DAY>   prints the total progress of a given day (format: 11Jan2022)\n";
-    std::cout << "                          if no <DAY> is given, the current day is implied\n";
-    std::cout << "    -c, --current         prints the current progress (how long has it been since -s without using -e)\n";
     std::cout << "    -w, --week            does a -t on every file within the past 7 days\n";
     std::cout << "                          and displays a total amount of hours worked during that time\n";
-
+    std::cout << "    -b, --balance <DAY>   prints the total progress of a given day (format: 11Jan2022)\n";
+    std::cout << "                          if no <DAY> is given, the current day is implied\n";
+    std::cout << "                          the current progress (-c) is not taken into account\n";
+    std::cout << "    -c, --current         prints the current progress (how long has it been since -s without using -e)\n";
 }
 
 void printWarning(){
