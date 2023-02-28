@@ -8,8 +8,8 @@ By default, spro will install in /usr/local/bin.
 This can be changed by running `$make INSTALL_DIR=custom_dir install`, where `custom_dir` is the directory you want to install in.
 ```
 $ mkdir ~/.spro
-$ git clone https://github.com/Costinteo/shellsec
-$ cd shellsec
+$ git clone https://github.com/mircea-mihail/spro
+$ cd spro
 $ sudo make install
 ```
 
