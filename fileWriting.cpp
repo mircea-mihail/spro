@@ -7,7 +7,7 @@
 
 
 void startTimer(std::string title){
-    std::ifstream checkFile("timeData.txt");
+    std::ifstream checkFile(SPRO_PATH + "timeData.txt");
     time_t check = 0;
     checkFile >> check;
     if(check != 0){
@@ -16,7 +16,7 @@ void startTimer(std::string title){
         exit(EXIT_FAILURE);
     }    
     
-    std::ofstream f ("timeData.txt");
+    std::ofstream f (SPRO_PATH + "timeData.txt");
     std::time_t now =  (std::chrono::system_clock::to_time_t( std::chrono::system_clock::now()));
     f << now;
     f << '\n' << title;
@@ -45,7 +45,7 @@ void addEntry(time_t start, time_t stop, std::string title){
 }
 
 void stopTimer(){
-    std::ifstream f("timeData.txt");
+    std::ifstream f(SPRO_PATH + "timeData.txt");
     std::time_t stop = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     std::time_t start;
     std::string title;
@@ -69,7 +69,7 @@ void stopTimer(){
 
     f.close();
 
-    std::ofstream g("timeData.txt"); 
+    std::ofstream g(SPRO_PATH + "timeData.txt"); 
     //for every entry added, the aux file needs to be updated with a 0, to avoid consecutive -e timing errors
     g << 0;
     g.close();
@@ -79,7 +79,7 @@ std::string rewriteToAuxFile(int line, std::string filename){
     char auxc;
     std::string areYouSure;
     int rows = 1;
-    std::ofstream af("auxFile.txt");
+    std::ofstream af(SPRO_PATH + "auxFile.txt");
     std::ifstream mf(filename);
     while(mf>>std::noskipws>>auxc){
         if(auxc == '\n'){
@@ -109,7 +109,7 @@ std::string rewriteToAuxFile(int line, std::string filename){
 void copyToMainFile(int line, std::string filename){
     char auxc;
     std::ofstream mf(filename);
-    std::ifstream af("auxFile.txt");
+    std::ifstream af(SPRO_PATH + "auxFile.txt");
     while(af>>std::noskipws>>auxc){
         mf << auxc;
     }

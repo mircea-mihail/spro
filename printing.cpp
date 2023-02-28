@@ -1,5 +1,13 @@
 #include <iostream>
 
+//for the home path
+#include <sys/types.h>
+#include <unistd.h>
+#include <pwd.h>
+struct passwd *pw = getpwuid(getuid());
+const std::string HOME_PATH = pw->pw_dir;
+const std::string SPRO_PATH = HOME_PATH + "/.spro/";
+
 #include "printing.h"
 #include "generalUtility.h"
 
@@ -59,7 +67,7 @@ time_t addItUp(std::string filename, time_t extraSeconds = 0){
 }
 
 time_t showCurrentProgress(){
-    std::ifstream f("timeData.txt");
+    std::ifstream f(SPRO_PATH + "timeData.txt");
     std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     std::time_t start;
 

@@ -90,7 +90,7 @@ std::string generateFilename(time_t start){
         pos ++;
     }while(pos < aux.size() - 1);
     
-    return filename;
+    return SPRO_PATH + filename;
 }
 
 std::string getExistingFilename(time_t day){
@@ -102,7 +102,7 @@ std::string getExistingFilename(time_t day){
 } 
 
 bool zeroAuxFile(){
-    std::ifstream f("timeData.txt");
+    std::ifstream f(SPRO_PATH + "timeData.txt");
     std::time_t start;
 
     f >> start;
