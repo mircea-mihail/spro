@@ -1,5 +1,5 @@
 # spro: Shell-Productivity
-spro, short for Shell Productivity, is a terminal application meant to track your productive hours
+Spro, short for Shell Productivity, is a terminal application meant to track your productive hours.
 
 ## Usage
 ```
