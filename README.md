@@ -6,17 +6,17 @@ It's very important to create a .spro directory in your home directory!
 
 By default, spro will install in /usr/local/bin.
 This can be changed by running `$make INSTALL_DIR=custom_dir install`, where `custom_dir` is the directory you want to install in.
-'''
+```
 $ mkdir ~/.spro
 $ git clone https://github.com/Costinteo/shellsec
 $ cd shellsec
 $ sudo make install
-'''
+```
 
 To uninstall simply run
-'''
+```
 $ sudo make uninstall
-'''
+```
 
 ## Usage
 ```
