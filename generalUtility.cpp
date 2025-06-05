@@ -1,9 +1,9 @@
-#include <chrono>
-#include <iostream>
-#include <fstream>
-#include <string>
-
 #include "generalUtility.h"
+
+struct passwd *pw = getpwuid(getuid());
+const std::string HOME_PATH = pw->pw_dir;
+const std::string SPRO_PATH = HOME_PATH + "/.spro/";
+
 
 void normalizeTheTime(time_t &hours, time_t &minutes, time_t &seconds){
     time_t maux = 0;

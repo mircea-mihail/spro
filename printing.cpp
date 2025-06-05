@@ -1,15 +1,4 @@
-#include <iostream>
-
-//for the home path
-#include <sys/types.h>
-#include <unistd.h>
-#include <pwd.h>
-struct passwd *pw = getpwuid(getuid());
-const std::string HOME_PATH = pw->pw_dir;
-const std::string SPRO_PATH = HOME_PATH + "/.spro/";
-
 #include "printing.h"
-#include "generalUtility.h"
 
 const time_t SECONDS_IN_A_DAY =  86400;
 
@@ -36,7 +25,7 @@ void printWarning(){
     std::cout << "\nDON'T FORGET TO STOP THE TIMER!\n\n";
 }
 
-time_t addItUp(std::string filename, time_t extraSeconds = 0){
+time_t addItUp(std::string filename, time_t extraSeconds){
     int nrows = numberOfRows(filename);
     std::ifstream f(filename);
     std::string buffer;

@@ -1,7 +1,14 @@
 #ifndef SPRO_PRINTING_H_
 #define SPRO_PRINTING_H_
 
-#include "printing.cpp"
+#include <iostream>
+
+//for the home path
+#include <sys/types.h>
+#include <unistd.h>
+#include <pwd.h>
+
+#include "generalUtility.h"
 
 //prints the way you're supposed to use the application
 void usage();
@@ -11,7 +18,7 @@ void printWarning();
 
 //anime cool watamote
 //prints a total number of hours, minutes and seconds in a file
-time_t addItUp(std::string filename, time_t extraSeconds);
+time_t addItUp(std::string filename, time_t extraSeconds = 0);
 
 //displays the unfinished progress form -s without ending it with -e
 time_t showCurrentProgress();

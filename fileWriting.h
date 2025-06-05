@@ -1,7 +1,11 @@
 #ifndef SPRO_FILEWRITING_H_
 #define SPRO_FILEWRITING_H_
 
-#include "fileWriting.cpp"
+#include <fstream>
+#include <iostream>
+#include <chrono>
+
+#include "printing.h"
 
 //starts the timer -> writes to an aux file the time in system time
 void startTimer(std::string title);

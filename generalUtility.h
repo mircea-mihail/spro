@@ -1,7 +1,16 @@
 #ifndef SPRO_GENERALUTILITY_H_
 #define SPRO_GENERALUTILITY_H_
 
-#include "generalUtility.cpp"
+#include <chrono>
+#include <iostream>
+#include <fstream>
+#include <string>
+
+#include <unistd.h>
+#include <pwd.h>
+
+extern const std::string HOME_PATH;
+extern const std::string SPRO_PATH;
 
 //system time is in seconds so this function makes the seconds and minutes less than 60
 void normalizeTheTime(time_t &hours, time_t &minutes, time_t &seconds);

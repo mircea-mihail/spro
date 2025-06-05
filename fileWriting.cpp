@@ -1,10 +1,4 @@
-#include <fstream>
-#include <iostream>
-#include <chrono>
-
-#include "printing.h"
 #include "fileWriting.h"
-
 
 void startTimer(std::string title){
     std::ifstream checkFile(SPRO_PATH + "timeData.txt");
