@@ -1,11 +1,4 @@
-#include <iostream>
-#include <chrono>
-#include <unistd.h>
-
 #include "options.h"
-#include "printing.h"
-#include "generalUtility.h" 
-#include "fileWriting.h"
 
 void options(int argc, char* argv[]){
     int i;
@@ -79,7 +72,7 @@ void options(int argc, char* argv[]){
             exit(EXIT_FAILURE);
         }
         else{
-            std::string inputDate = argv[2];
+            std::string inputDate = SPRO_PATH + std::string(argv[2]);
             if(existsFile(inputDate)){
                 printTable(inputDate);
             }
@@ -100,7 +93,7 @@ void options(int argc, char* argv[]){
             exit(EXIT_FAILURE);
         }
         else{
-            std::string inputDate = argv[2];
+            std::string inputDate = SPRO_PATH + std::string(argv[2]);
             if(existsFile(inputDate)){
                 addItUp(inputDate);
             }
